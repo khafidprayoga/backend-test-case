@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import { Ctx, Query, Resolver } from 'type-graphql';
 import { MemberRepository } from './member.repository';
 import { Member } from './member.schema';
-import { RequestContext } from 'src/common/request.context';
+import { RequestContext } from 'src/common/net/request.context';
 
 @injectable()
 @Resolver(of => Member)

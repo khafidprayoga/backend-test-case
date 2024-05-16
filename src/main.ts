@@ -4,8 +4,7 @@ import { resolvers } from './resolver';
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { container } from 'tsyringe';
-import { v4 as uuid } from 'uuid';
-import { RequestContext } from 'src/common/request.context';
+import { incomingContextHandler } from './common/net/request.context';
 
 const bootstrap = async () => {
   const schema = await buildSchema({
@@ -25,14 +24,7 @@ const bootstrap = async () => {
     listen: {
       port: 4000,
     },
-    context: async ({ req, res }) => {
-      const reqid = uuid();
-      const ctx: RequestContext = {
-        requestId: reqid,
-      };
-
-      return ctx;
-    },
+    context: incomingContextHandler,
   });
 
   console.log(`GraphQL server ready at ${url}`);
