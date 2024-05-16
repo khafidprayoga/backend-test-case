@@ -1,0 +1,23 @@
+{
+  "name": "backend-test-case",
+  "version": "1.0.0",
+  "description": "technical test PT. Eigen Tri Mathema",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "ts-node-dev src/main.ts",
+    "serve": "tsc && node dist/main.js"
+  },
+  "author": "khafidprayoga",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/server": "^4.10.4",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.23.0",
+    "reflect-metadata": "^0.2.2",
+    "type-graphql": "2.0.0-rc.1"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  }
+}
