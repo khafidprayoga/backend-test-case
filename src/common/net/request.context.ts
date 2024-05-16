@@ -1,22 +1,30 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
 import { v4 as uuid } from 'uuid';
 
 export interface RequestContext {
   requestId: string;
 }
 
+type _graphMetadata = {
+  operationName: string;
+  query: string;
+};
+
 export const incomingContextHandler = async ({
   req,
   res,
 }: {
-  req: IncomingMessage;
-  res: ServerResponse;
+  req: any;
+  res: any;
 }) => {
+  const { operationName } = req.body as _graphMetadata;
+  if (operationName === 'IntrospectionQuery') {
+    return {};
+  }
+
   const reqid = uuid();
   const ctx: RequestContext = {
     requestId: reqid,
   };
 
-  console.log(`incoming request with requestId: ${reqid}`);
   return ctx;
 };

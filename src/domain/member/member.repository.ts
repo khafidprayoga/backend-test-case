@@ -1,5 +1,7 @@
+import { injectable } from 'tsyringe';
 import { Member } from './member.schema';
 
+@injectable()
 export class MemberRepository {
   private members: Member[] = [
     {
