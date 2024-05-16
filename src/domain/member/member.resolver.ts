@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { Ctx, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { MemberRepository } from './member.repository';
 import { Member } from './member.schema';
 import { RequestContext } from 'src/common/net/request.context';
@@ -13,8 +13,18 @@ export class MemberResolver {
   ) {}
 
   @Query(returns => [Member], { description: 'Get list member' })
-  members(@Ctx() ctx: RequestContext): Member[] {
-    const data = this.memberRepository.getMembers();
+  async members(@Ctx() ctx: RequestContext): Promise<Member[]> {
+    const data = await this.memberRepository.getMembers();
     return data;
+  }
+
+  @Mutation(returns => Member, { description: 'Create new member' })
+  async createMember(
+    @Ctx() ctx: RequestContext,
+    @Arg('name') name: string,
+  ): Promise<Member> {
+    const member = new Member();
+    member.name = name;
+    return this.memberRepository.createMember(member);
   }
 }

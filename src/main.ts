@@ -5,6 +5,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { container } from 'tsyringe';
 import { incomingContextHandler } from './common/net/request.context';
+import { dataSource } from './common/db/typeorm.client';
 
 const bootstrap = async () => {
   const schema = await buildSchema({
@@ -14,6 +15,8 @@ const bootstrap = async () => {
       get: cls => container.resolve(cls),
     },
   });
+
+  dataSource.initialize();
 
   const apolloServer = new ApolloServer({
     schema,

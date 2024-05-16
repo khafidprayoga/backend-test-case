@@ -1,24 +1,25 @@
 import { injectable } from 'tsyringe';
 import { Member } from './member.schema';
+import { type Repository } from 'typeorm';
+import { dataSource } from '../../common/db/typeorm.client';
 
 @injectable()
 export class MemberRepository {
-  private members: Member[] = [
-    {
-      code: 'M001',
-      name: 'Angga',
-    },
-    {
-      code: 'M002',
-      name: 'Ferry',
-    },
-    {
-      code: 'M003',
-      name: 'Putri',
-    },
-  ];
+  private readonly memberRepository: Repository<Member>;
+  constructor() {
+    this.memberRepository = dataSource.getRepository(Member);
+  }
 
-  getMembers(): Member[] {
-    return this.members;
+  public async createMember(member: Member): Promise<Member> {
+    return this.memberRepository.save(member);
+  }
+
+  public async getMember(code: string): Promise<Member | null> {
+    return this.memberRepository.findOne({
+      where: { code },
+    })!;
+  }
+  public async getMembers(): Promise<Member[]> {
+    return this.memberRepository.find();
   }
 }
