@@ -9,6 +9,9 @@ export class MemberRepository {
   constructor() {
     this.memberRepository = dataSource.getRepository(Member);
   }
+  get(): Repository<Member> {
+    return this.memberRepository;
+  }
 
   public async createMember(member: Member): Promise<Member> {
     return this.memberRepository.save(member);

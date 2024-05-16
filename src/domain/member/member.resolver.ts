@@ -23,8 +23,11 @@ export class MemberResolver {
     @Ctx() ctx: RequestContext,
     @Arg('name') name: string,
   ): Promise<Member> {
-    const member = new Member();
-    member.name = name;
+    const rep = this.memberRepository.get();
+    const member = rep.create({
+      name,
+    });
+
     return this.memberRepository.createMember(member);
   }
 }
