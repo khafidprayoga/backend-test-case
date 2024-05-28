@@ -1,6 +1,6 @@
 import { injectable } from 'tsyringe';
 import { Arg, Args, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { CreateMemberInput, Member } from './member.schema';
+import { CreateMemberInput, Member, MemberList } from './member.schema';
 import { RequestContext } from 'src/common/net/request.context';
 import { FindManyOptions, Like, Repository } from 'typeorm';
 import { dataSource } from '../../common/db/typeorm.client';
@@ -27,11 +27,12 @@ export class MemberResolver {
     return createdMember;
   }
 
-  @Query(returns => [Member], { description: 'Get list member' })
+  @Query(returns => MemberList, { description: 'Get list member' })
   async members(
     @Ctx() ctx: RequestContext,
     @Args() pagination: PaginationListArgs,
-  ): Promise<Member[]> {
+  ): Promise<MemberList> {
+    let count: number = 0;
     let filters: FindManyOptions = {
       skip: (pagination.page - 1) * pagination.pageSize,
       take: pagination.pageSize,
@@ -44,8 +45,20 @@ export class MemberResolver {
           name: Like(`%${pagination.search}%`),
         },
       };
+
+      count = await this.memberRepository.count({
+        where: {
+          name: Like(`%${pagination.search}%`),
+        },
+      });
+    } else {
+      count = await this.memberRepository.count();
     }
+
     const data = await this.memberRepository.find(filters);
-    return data;
+    return {
+      data,
+      count,
+    };
   }
 }

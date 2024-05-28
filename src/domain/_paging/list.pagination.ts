@@ -1,12 +1,16 @@
 import { Max, Min, MinLength } from 'class-validator';
-import { ArgsType, Field } from 'type-graphql';
+import { ArgsType, Field, Int } from 'type-graphql';
 
 @ArgsType()
 export class PaginationListArgs {
-  @Field({ nullable: false, defaultValue: 1, description: 'skip page x of x' })
+  @Field(type => Int, {
+    nullable: false,
+    defaultValue: 1,
+    description: 'skip page x of x',
+  })
   page!: number;
 
-  @Field({
+  @Field(type => Int, {
     nullable: false,
     defaultValue: 10,
     description: 'take x count data of each page',
