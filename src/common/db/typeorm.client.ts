@@ -1,11 +1,11 @@
 import { DataSource } from 'typeorm';
-import { Member } from '../../domain/member/member.schema';
+import { entities } from './entities.collection';
 
 console.log(__dirname);
 export const dataSource = new DataSource({
   type: 'sqlite',
-  database: 'member.sqlite',
-  entities: [Member],
+  database: 'eigen.sqlite',
+  entities,
   logging: true,
   synchronize: true,
 });

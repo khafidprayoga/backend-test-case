@@ -14,6 +14,9 @@ importers:
       '@types/uuid':
         specifier: ^9.0.8
         version: 9.0.8
+      class-validator:
+        specifier: ^0.14.1
+        version: 0.14.1
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -28,7 +31,7 @@ importers:
         version: 0.2.2
       type-graphql:
         specifier: 2.0.0-rc.1
-        version: 2.0.0-rc.1(graphql-scalars@1.23.0(graphql@16.8.1))(graphql@16.8.1)
+        version: 2.0.0-rc.1(class-validator@0.14.1)(graphql-scalars@1.23.0(graphql@16.8.1))(graphql@16.8.1)
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(sqlite3@5.1.7)(ts-node@10.9.2(@types/node@20.12.12)(typescript@5.4.5))
@@ -317,6 +320,9 @@ packages:
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
 
+  '@types/validator@13.11.10':
+    resolution: {integrity: sha512-e2PNXoXLr6Z+dbfx5zSh9TRlXJrELycxiaXznp4S5+D2M3b9bqJEitNHA5923jhnB2zzFiZHa2f0SI1HoIahpg==}
+
   '@whatwg-node/events@0.1.1':
     resolution: {integrity: sha512-AyQEn5hIPV7Ze+xFoXVU3QTHXVbWPrzaOkxtENMPMuNL6VVHrp4hHfDt9nrQpjO7BgvuM95dMtkycX5M/DZR3w==}
     engines: {node: '>=16.0.0'}
@@ -463,6 +469,9 @@ packages:
   chownr@2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
+
+  class-validator@0.14.1:
+    resolution: {integrity: sha512-2VEG9JICxIqTpoK1eMzZqaV+u/EiwEJkMGzTrZf6sU/fwsnOITVgYJ8yojSy6CaXtO9V0Cc6ZQZ8h8m4UBuLwQ==}
 
   clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
@@ -889,6 +898,9 @@ packages:
 
   kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
+
+  libphonenumber-js@1.11.2:
+    resolution: {integrity: sha512-V9mGLlaXN1WETzqQvSu6qf6XVAr3nFuJvWsHcuzCCCo6xUKawwSxOPTpan5CGOSKTn5w/bQuCZcLPJkyysgC3w==}
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
@@ -1523,6 +1535,10 @@ packages:
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
+  validator@13.12.0:
+    resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
+    engines: {node: '>= 0.10'}
+
   value-or-promise@1.0.12:
     resolution: {integrity: sha512-Z6Uz+TYwEqE7ZN50gwn+1LCVo9ZVrpxRPOhOLnncYkY1ZzOYtrX8Fwf/rFktZ8R5mJms6EZf5TqNOMeZmnPq9Q==}
     engines: {node: '>=12'}
@@ -1900,6 +1916,8 @@ snapshots:
 
   '@types/uuid@9.0.8': {}
 
+  '@types/validator@13.11.10': {}
+
   '@whatwg-node/events@0.1.1': {}
 
   abbrev@1.1.1:
@@ -2084,6 +2102,12 @@ snapshots:
   chownr@1.1.4: {}
 
   chownr@2.0.0: {}
+
+  class-validator@0.14.1:
+    dependencies:
+      '@types/validator': 13.11.10
+      libphonenumber-js: 1.11.2
+      validator: 13.12.0
 
   clean-stack@2.2.0:
     optional: true
@@ -2529,6 +2553,8 @@ snapshots:
     optional: true
 
   kuler@2.0.0: {}
+
+  libphonenumber-js@1.11.2: {}
 
   lodash.get@4.4.2: {}
 
@@ -3119,7 +3145,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  type-graphql@2.0.0-rc.1(graphql-scalars@1.23.0(graphql@16.8.1))(graphql@16.8.1):
+  type-graphql@2.0.0-rc.1(class-validator@0.14.1)(graphql-scalars@1.23.0(graphql@16.8.1))(graphql@16.8.1):
     dependencies:
       '@graphql-yoga/subscription': 5.0.0
       '@types/node': 20.12.12
@@ -3129,6 +3155,8 @@ snapshots:
       graphql-scalars: 1.23.0(graphql@16.8.1)
       semver: 7.6.2
       tslib: 2.6.2
+    optionalDependencies:
+      class-validator: 0.14.1
 
   type-is@1.6.18:
     dependencies:
@@ -3181,6 +3209,8 @@ snapshots:
   uuid@9.0.1: {}
 
   v8-compile-cache-lib@3.0.1: {}
+
+  validator@13.12.0: {}
 
   value-or-promise@1.0.12: {}
 

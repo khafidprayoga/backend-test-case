@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
@@ -9,6 +9,12 @@ export class Member extends BaseEntity {
   public readonly code: string;
 
   @Column()
+  @Field()
+  public name: string;
+}
+
+@InputType()
+export class CreateMemberInput {
   @Field()
   public name: string;
 }
