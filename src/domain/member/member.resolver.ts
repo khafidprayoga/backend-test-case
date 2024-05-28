@@ -2,7 +2,7 @@ import { injectable } from 'tsyringe';
 import { Arg, Args, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { CreateMemberInput, Member, MemberList } from './member.schema';
 import { RequestContext } from 'src/common/net/request.context';
-import { FindManyOptions, Like, Repository } from 'typeorm';
+import { FindManyOptions, IsNull, Like, Repository } from 'typeorm';
 import { dataSource } from '../../common/db/typeorm.client';
 import { PaginationListArgs } from '../_paging/list.pagination';
 import { type Nullable } from '../../common/const/type.const';
@@ -28,35 +28,42 @@ export class MemberResolver {
     return createdMember;
   }
 
+  @Mutation(returns => Boolean, { description: 'Delete member by code' })
+  async deleteMember(@Arg('code') code: string): Promise<boolean> {
+    const member = await this.memberRepository.findOneBy({ code });
+    if (!member || member.deletedAt !== null) {
+      return false;
+    }
+
+    member.deletedAt = new Date();
+    await this.memberRepository.save(member);
+    return true;
+  }
+
   @Query(returns => MemberList, { description: 'Get list member' })
   async members(
     @Ctx() ctx: RequestContext,
     @Args() pagination: PaginationListArgs,
   ): Promise<MemberList> {
-    let count: number = 0;
     let filters: FindManyOptions = {
-      skip: (pagination.page - 1) * pagination.pageSize,
+      skip: pagination.skip,
       take: pagination.pageSize,
+      where: {
+        deletedAt: IsNull(),
+      },
     };
 
     if (pagination.search) {
       filters = {
         ...filters,
         where: {
+          ...filters.where,
           name: Like(`%${pagination.search}%`),
         },
       };
-
-      count = await this.memberRepository.count({
-        where: {
-          name: Like(`%${pagination.search}%`),
-        },
-      });
-    } else {
-      count = await this.memberRepository.count();
     }
 
-    const data = await this.memberRepository.find(filters);
+    const [data, count] = await this.memberRepository.findAndCount(filters);
     return {
       data,
       count,

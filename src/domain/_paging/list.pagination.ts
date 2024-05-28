@@ -3,6 +3,7 @@ import { ArgsType, Field, Int } from 'type-graphql';
 
 @ArgsType()
 export class PaginationListArgs {
+  @Min(1)
   @Field(type => Int, {
     nullable: false,
     defaultValue: 1,
@@ -22,4 +23,13 @@ export class PaginationListArgs {
   @Field({ nullable: true })
   @MinLength(3)
   search?: string;
+
+  get skip(): number {
+    switch (this.page) {
+      case 1:
+        return 0;
+      default:
+        return (this.page - 1) * this.pageSize;
+    }
+  }
 }
