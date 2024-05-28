@@ -10,7 +10,7 @@ import { dataSource } from './common/db/typeorm.client';
 const bootstrap = async () => {
   const schema = await buildSchema({
     resolvers,
-    nullableByDefault: false,
+    nullableByDefault: true,
     container: {
       get: cls => container.resolve(cls),
     },

@@ -5,6 +5,7 @@ import { RequestContext } from 'src/common/net/request.context';
 import { FindManyOptions, Like, Repository } from 'typeorm';
 import { dataSource } from '../../common/db/typeorm.client';
 import { PaginationListArgs } from '../_paging/list.pagination';
+import { type Nullable } from '../../common/const/type.const';
 
 @injectable()
 @Resolver(of => Member)
@@ -60,5 +61,15 @@ export class MemberResolver {
       data,
       count,
     };
+  }
+
+  @Query(returns => Member, {
+    description: 'Get member by code',
+    nullable: true,
+  })
+  async member(@Arg('code') code: string): Promise<Nullable<Member>> {
+    return this.memberRepository.findOneBy({
+      code,
+    });
   }
 }
